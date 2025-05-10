@@ -1,13 +1,13 @@
 import {Compiler} from './src/Compiler.js';
 import {CompilationError} from './src/Exceptions/CompilationError.js';
 
-await (async (args) => {
+await (async (target) => {
 	try {
-		if (!args.length) {
+		if (!target) {
 			throw new Error('Invalid target!');
 		}
 
-		const compiler = new Compiler(process.argv[process.argv.length - 1]);
+		const compiler = new Compiler(target);
 
 		try {
 			await compiler.Compile();
