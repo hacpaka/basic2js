@@ -1,5 +1,6 @@
 import fs from 'fs';
 import {Address} from './Address.js';
+import {CompilationError} from './Exceptions/CompilationError.js';
 
 function filter(target, handler) {
 	return Object.fromEntries(Object.entries(target).filter(v => handler(v[1])));
@@ -37,14 +38,20 @@ export class Compiler {
 		return this.#line;
 	}
 
+	#unconsumed;
+
+	get Unconsumed() {
+		return this.#unconsumed;
+	}
+
 	async Compile() {
 		const compiled = [];
 
 		for ({line: this.#line} of this.#lines) {
 			const consumer = new Address();
 
-			if ((await (consumer).Consume(this.#line)).length > 0) {
-				throw new Error(`Invalid syntax!`);
+			if ((this.#unconsumed = (await (consumer).Consume(this.#line))).length > 0) {
+				throw new CompilationError(`Invalid syntax!`);
 			}
 
 			compiled.push(consumer);

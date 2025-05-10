@@ -1,5 +1,6 @@
 import {Compiler} from './src/Compiler.js';
 import fs from 'fs';
+import {CompilationError} from './src/Exceptions/CompilationError.js';
 
 try {
 	if (process.argv.length !== 3) {
@@ -12,8 +13,12 @@ try {
 	try{
 		print(await compiler.Compile());
 	} catch (e) {
-		console.log(e);
-		throw new Error(`Compilation error on line ${compiler.Index + 1}:\n${e?.message ?? e}\n> ${compiler.Line}\n`);
+
+		if (e instanceof CompilationError) {
+			throw new Error(`Compilation error on line ${compiler.Index + 1}:\n${e?.message ?? e}\n> ${compiler.Line}\n>> ${compiler.Unconsumed}`);
+		}
+
+		throw e;
 	}
 
 	console.log(`Successfully compiled: ${compiler.Index} lines(s)!`);
