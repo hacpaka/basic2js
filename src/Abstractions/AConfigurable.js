@@ -1,10 +1,11 @@
 import fs from 'fs';
+import {kebabCase, snakeCase} from 'case-anything';
 
 export class AConfigurable {
 	static #configuration = {};
 
 	get Configuration() {
-		return (AConfigurable.#configuration?.targets ?? []).filter(v => v.name === this.constructor.name.toLowerCase()).shift()?.accept ?? [];
+		return (AConfigurable.#configuration?.targets ?? []).filter(v => v.name === kebabCase(this.constructor.name)).shift()?.accept ?? [];
 	}
 
 	static {

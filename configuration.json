@@ -6,6 +6,7 @@
 			"name": "address",
 			"accept": [
 				"rem",
+				"dim",
 				"print",
 				"variable"
 			]
@@ -18,9 +19,31 @@
 			]
 		},
 		{
+			"name": "dim",
+			"accept": [
+				"variable",
+				"declaration-separator"
+			]
+		},
+		{
+			"name": "dimension",
+			"accept": [
+				"variable",
+				"number",
+				"dimension-separator",
+				"dimension-terminator"
+			]
+		},
+		{
 			"name": "variable",
 			"accept": [
 				"assignment",
+				"dimension"
+			]
+		},
+		{
+			"name": "assignment",
+			"accept": [
 				"string"
 			]
 		}

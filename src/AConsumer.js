@@ -6,6 +6,10 @@ export class AConsumer extends AConfigurable {
 		return false;
 	}
 
+	Ignore() {
+		return false;
+	}
+
 	#signature;
 
 	constructor(signature) {
@@ -81,11 +85,15 @@ export class AConsumer extends AConfigurable {
 				}
 
 				if (consumer.Break()) {
-					console.log(`#^ ${this.constructor.name}`);
+					console.log(`#^ [${this.constructor.name}:${consumer.constructor.name}]`);
 					return line;
 				}
 
-				this.#children.push(consumer);
+				if (!consumer.Ignore()) {
+					this.#children.push(consumer);
+				}
+
+				break;
 			}
 
 			console.log(`[${this.constructor.name}]: <=${line.length}:${length}`);

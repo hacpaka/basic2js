@@ -1,6 +1,6 @@
 import {AConsumer} from './AConsumer.js';
 
-export default class Break extends AConsumer {
+export default class Assignment extends AConsumer {
 	constructor() {
 		super(/^\s*=\s*/);
 	}
