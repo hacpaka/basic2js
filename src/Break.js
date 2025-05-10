@@ -5,7 +5,7 @@ export default class Break extends AConsumer {
 		super(/^\s*:\s*/);
 	}
 
-	Break() {
+	Ignore() {
 		return true;
 	}
 }

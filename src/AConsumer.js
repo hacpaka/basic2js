@@ -6,10 +6,24 @@ export class AConsumer extends AConfigurable {
 		return false;
 	}
 
+	Ignore() {
+		return false;
+	}
+
+	#level = 0;
+
+	get Level() {
+		return this.#level;
+	}
+
 	#signature;
 
-	constructor(signature) {
+	constructor(signature, level = 0) {
 		super();
+
+		if (!!level) {
+			this.#level = level;
+		}
 
 		if (signature?.constructor !== RegExp) {
 			throw new Error('Invalid signature!');
@@ -73,22 +87,30 @@ export class AConsumer extends AConfigurable {
 			console.log(`=> ${this.constructor.name}: ${line}`);
 
 			for await (const consumer of this.#consumers()) {
+				if (/^\s*:/.test(line) && this.Level > 0) {
+					console.log(`>> ${this.constructor.name}: BREAK ${this.#level}`);
+					return line
+				}
+
 				console.log(`?> [${this.constructor.name}:${consumer.constructor.name}] ${line}`);
 
-				line = await (consumer).Consume(line);
-				if (line.length >= length) {
+				if ((line = await (consumer).Consume(line)).length >= length) {
 					continue;
 				}
 
 				if (consumer.Break()) {
-					console.log(`#^ ${this.constructor.name}`);
+					console.log(`#^ [${this.constructor.name}:${consumer.constructor.name}]`);
 					return line;
 				}
 
-				this.#children.push(consumer);
+				if (!consumer.Ignore()) {
+					this.#children.push(consumer);
+				}
+
+				break;
 			}
 
-			console.log(`[${this.constructor.name}]: <=${line.length}:${length}`);
+			//console.log(`[${this.constructor.name}]: <=${line.length}:${length}`);
 		} while (line.length < length);
 
 
@@ -97,10 +119,13 @@ export class AConsumer extends AConfigurable {
 		return line;
 	}
 
+	// #terminated(line) {
+	// 	if (/^\s*:/.test(line))
+	// }
 
 	async* #consumers() {
 		for (const configuration of this.Configuration) {
-			yield await AConsumer.#create(configuration);
+			yield await this.#create(configuration);
 		}
 	}
 
@@ -108,9 +133,9 @@ export class AConsumer extends AConfigurable {
 		return this.Configuration.length > 0;
 	}
 
-	static async #create(target) {
+	async #create(target) {
 		try {
-			return new ((await import(`./${upperCamelCase(target)}.js`)).default)();
+			return new ((await import(`./${upperCamelCase(target)}.js`)).default)(this.Level + 1);
 		} catch (e) {
 			throw new Error(`Undefined target: ${target}!\n${e.message}`);
 		}

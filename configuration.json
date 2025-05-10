@@ -5,7 +5,9 @@
 		{
 			"name": "address",
 			"accept": [
+				"break",
 				"rem",
+				"dim",
 				"print",
 				"variable"
 			]
@@ -13,15 +15,50 @@
 		{
 			"name": "print",
 			"accept": [
-				"break",
 				"string"
+			]
+		},
+		{
+			"name": "dim",
+			"accept": [
+				"variable",
+				"declaration-separator"
+			]
+		},
+		{
+			"name": "dimension",
+			"accept": [
+				"variable",
+				"number",
+				"dimension-separator",
+				"dimension-terminator"
 			]
 		},
 		{
 			"name": "variable",
 			"accept": [
 				"assignment",
-				"string"
+				"dimension"
+			]
+		},
+		{
+			"name": "assignment",
+			"accept": [
+				"command",
+				"variable",
+				"string",
+				"number",
+				"operator"
+			]
+		},
+		{
+			"name": "command",
+			"accept": [
+				"command",
+				"number",
+				"string",
+				"operator",
+				"command-terminator"
 			]
 		}
 	]

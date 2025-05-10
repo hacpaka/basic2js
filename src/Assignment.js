@@ -1,8 +1,8 @@
 import {AConsumer} from './AConsumer.js';
 
-export default class Break extends AConsumer {
-	constructor() {
-		super(/^\s*=\s*/);
+export default class Assignment extends AConsumer {
+	constructor(level = 0) {
+		super(/^\s*=\s*/, level);
 	}
 }
 

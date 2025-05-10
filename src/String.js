@@ -2,8 +2,8 @@ import {AConsumer} from './AConsumer.js';
 
 export default class String extends AConsumer {
 
-	constructor() {
-		super(/^(?<content>"[^"]*")\s*/);
+	constructor(level = 0) {
+		super(/^(?<content>"[^"]*")\s*/, level);
 	}
 }
 
