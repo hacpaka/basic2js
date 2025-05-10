@@ -2,11 +2,7 @@ import {AConsumer} from './AConsumer.js';
 
 export default class Break extends AConsumer {
 	constructor() {
-		super(/^\s*:\s*/);
-	}
-
-	Break() {
-		return true;
+		super(/^\s*=\s*/);
 	}
 }
 

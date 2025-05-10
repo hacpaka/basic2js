@@ -6,7 +6,8 @@
 			"name": "address",
 			"accept": [
 				"rem",
-				"print"
+				"print",
+				"variable"
 			]
 		},
 		{
@@ -17,11 +18,10 @@
 			]
 		},
 		{
-			"name": "dim",
+			"name": "variable",
 			"accept": [
-				"%int",
-				"%float",
-				"%string"
+				"assignment",
+				"string"
 			]
 		}
 	]

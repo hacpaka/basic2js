@@ -2,6 +2,10 @@ import {upperCamelCase} from 'case-anything';
 import {AConfigurable} from './Abstractions/AConfigurable.js';
 
 export class AConsumer extends AConfigurable {
+	Break() {
+		return false;
+	}
+
 	#signature;
 
 	constructor(signature) {
@@ -14,7 +18,7 @@ export class AConsumer extends AConfigurable {
 		this.#signature = new RegExp(signature, 's');
 	}
 
-	#content;
+	#content = "";
 
 	get Content() {
 		return this.#content;
@@ -31,6 +35,8 @@ export class AConsumer extends AConfigurable {
 	}
 
 	async Consume(line) {
+		console.log(`>> ${this.constructor.name}: ${line}`);
+
 		const data = line.match(this.#signature);
 
 		if (data === null) {
@@ -45,38 +51,48 @@ export class AConsumer extends AConfigurable {
 					break;
 
 				default:
-					throw new Error(`Undefined fragment: ${key}!`)
+					throw new Error(`Undefined fragment: ${key}!`);
 			}
 		}
 
-		return this.#through(`${line.substring(0, data?.index)}${line.substring(data?.index + data[0].length)}`);
+		console.log(`-> ${this.constructor.name}: {${this.Traversable()}} '${this.#content}'`);
+		console.log(`*> ${line.substring(0, data?.index)}${line.substring(data?.index + data[0].length)}'`);
+
+		return await this.#through(`${line.substring(0, data?.index)}${line.substring(data?.index + data[0].length)}`);
 	}
 
 	async #through(line) {
-		let length = line.length;
+		if (!this.Traversable()) {
+			return line;
+		}
+
+		let length = 0;
 
 		do {
-			console.log(line);
+			length = line.length;
+			console.log(`=> ${this.constructor.name}: ${line}`);
 
 			for await (const consumer of this.#consumers()) {
+				console.log(`?> [${this.constructor.name}:${consumer.constructor.name}] ${line}`);
+
 				line = await (consumer).Consume(line);
-
-				if (line.length < length) {
-					if (consumer.constructor.name === 'Break') {
-						return line;
-					}
-
-					if (line.length < 1) {
-						return line;
-					}
-
-					this.#children.push(consumer);
-					length = line.length;
-
-					break;
+				if (line.length >= length) {
+					continue;
 				}
+
+				if (consumer.Break()) {
+					console.log(`#^ ${this.constructor.name}`);
+					return line;
+				}
+
+				this.#children.push(consumer);
 			}
+
+			console.log(`[${this.constructor.name}]: <=${line.length}:${length}`);
 		} while (line.length < length);
+
+
+		console.log(`#! ${this.constructor.name}: ${line.length}:${length}`);
 
 		return line;
 	}
@@ -86,6 +102,10 @@ export class AConsumer extends AConfigurable {
 		for (const configuration of this.Configuration) {
 			yield await AConsumer.#create(configuration);
 		}
+	}
+
+	Traversable() {
+		return this.Configuration.length > 0;
 	}
 
 	static async #create(target) {
