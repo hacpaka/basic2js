@@ -10,6 +10,10 @@ export class AConsumer extends AConfigurable {
 		return false;
 	}
 
+	Unbreakable() {
+		return false;
+	}
+
 	#level = 0;
 
 	get Level() {
@@ -87,7 +91,7 @@ export class AConsumer extends AConfigurable {
 			console.log(`=> ${this.constructor.name}: ${line}`);
 
 			for await (const consumer of this.#consumers()) {
-				if (/^\s*:/.test(line) && this.Level > 0) {
+				if (/^\s*:/.test(line) && this.Level > 0 && !this.Unbreakable()) {
 					console.log(`>> ${this.constructor.name}: BREAK ${this.#level}`);
 					return line
 				}

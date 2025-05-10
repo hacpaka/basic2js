@@ -8,6 +8,8 @@
 				"break",
 				"rem",
 				"dim",
+				"def",
+				"if",
 				"print",
 				"variable"
 			]
@@ -23,6 +25,49 @@
 			"accept": [
 				"variable",
 				"declaration-separator"
+			]
+		},
+		{
+			"name": "def",
+			"accept": [
+				"function"
+			]
+		},
+		{
+			"name": "if",
+			"accept": [
+				"then",
+				"condition"
+			]
+		},
+		{
+			"name": "condition",
+			"accept": [
+				"comparison",
+				"number"
+			]
+		},
+		{
+			"name": "then",
+			"accept": [
+				"break",
+				"goto",
+				"command",
+				"variable"
+			]
+		},
+		{
+			"name": "goto",
+			"accept": [
+				"target"
+			]
+		},
+		{
+			"name": "function",
+			"accept": [
+				"argument",
+				"function-terminator",
+				"assignment"
 			]
 		},
 		{
@@ -48,13 +93,27 @@
 				"variable",
 				"string",
 				"number",
-				"operator"
+				"operator",
+				"container"
+			]
+		},
+		{
+			"name": "container",
+			"accept": [
+				"command",
+				"variable",
+				"string",
+				"number",
+				"operator",
+				"container",
+				"container-terminator"
 			]
 		},
 		{
 			"name": "command",
 			"accept": [
 				"command",
+				"variable",
 				"number",
 				"string",
 				"operator",
