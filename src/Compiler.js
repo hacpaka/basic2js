@@ -44,9 +44,13 @@ export class Compiler {
 		return this.#unconsumed;
 	}
 
-	async Compile() {
-		const compiled = [];
+	#nodes = [];
 
+	get Nodes() {
+		return this.#nodes;
+	}
+
+	async Compile() {
 		for ({line: this.#line} of this.#lines) {
 			const consumer = new Address();
 
@@ -54,16 +58,8 @@ export class Compiler {
 				throw new CompilationError(`Invalid syntax!`);
 			}
 
-			compiled.push(consumer);
-
+			this.#nodes.push(consumer);
 			this.#index++;
 		}
-
-		// const output = [];
-		// for (const state of this.#states) {
-		// 	output.push(state.Compile());
-		// }
-
-		return compiled;//output.filter(v => !!v).join("\n");
 	}
 }
