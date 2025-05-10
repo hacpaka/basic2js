@@ -1,0 +1,7 @@
+@literal = %int, %float, %string
+@command = .rem, .dim, .print
+@function = .int, .rnd
+
+.expression > @literal | @function | %operator
+.address > @command | @expression
+.command > @literal

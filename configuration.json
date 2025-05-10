@@ -1,0 +1,28 @@
+{
+	"dictionary": {
+	},
+	"targets": [
+		{
+			"name": "address",
+			"accept": [
+				"rem",
+				"print"
+			]
+		},
+		{
+			"name": "print",
+			"accept": [
+				"break",
+				"string"
+			]
+		},
+		{
+			"name": "dim",
+			"accept": [
+				"%int",
+				"%float",
+				"%string"
+			]
+		}
+	]
+}
