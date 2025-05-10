@@ -7,6 +7,8 @@
 			"accept": [
 				"break",
 				"rem",
+				"goto",
+				"gosub",
 				"dim",
 				"def",
 				"if",
@@ -17,7 +19,11 @@
 		{
 			"name": "print",
 			"accept": [
-				"string"
+				"string",
+				"tabspace",
+				"separator",
+				"variable",
+				"operator"
 			]
 		},
 		{
@@ -37,12 +43,8 @@
 			"name": "if",
 			"accept": [
 				"then",
-				"condition"
-			]
-		},
-		{
-			"name": "condition",
-			"accept": [
+				"variable",
+				"command",
 				"comparison",
 				"number"
 			]
@@ -53,11 +55,18 @@
 				"break",
 				"goto",
 				"command",
-				"variable"
+				"variable",
+				"target"
 			]
 		},
 		{
 			"name": "goto",
+			"accept": [
+				"target"
+			]
+		},
+		{
+			"name": "gosub",
 			"accept": [
 				"target"
 			]
