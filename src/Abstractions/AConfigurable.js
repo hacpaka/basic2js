@@ -1,11 +1,16 @@
 import fs from 'fs';
-import {kebabCase, snakeCase} from 'case-anything';
+import {kebabCase} from 'case-anything';
+import {APrototype} from './APrototype.js';
 
-export class AConfigurable {
+export class AConfigurable extends APrototype {
 	static #configuration = {};
 
+	get Dictionary() {
+		return Object.fromEntries((AConfigurable.#configuration?.dictionary ?? []).map(v => [v.name, v.include]));
+	}
+
 	get Configuration() {
-		return (AConfigurable.#configuration?.targets ?? []).filter(v => v.name === kebabCase(this.constructor.name)).shift()?.accept ?? [];
+		return (AConfigurable.#configuration?.targets ?? []).filter(v => v.name === kebabCase(this.Class)).shift();
 	}
 
 	static {
@@ -17,8 +22,14 @@ export class AConfigurable {
 	}
 
 	constructor() {
+		super();
+
 		if (this.constructor === AConfigurable) {
-			throw new Error(`Cannot instantiate an abstract class: ${this.constructor.name}!`);
+			throw new Error(`Cannot instantiate an abstract class: ${this.Class}!`);
 		}
+	}
+
+	get Traversable() {
+		return !!this.Configuration?.accept?.length;
 	}
 }

@@ -1,4 +1,4 @@
-import {AConsumer} from './AConsumer.js';
+import {AConsumer} from './Consumers/Abstractions/AConsumer.js';
 
 export default class DeclarationSeparator extends AConsumer {
 

@@ -1,0 +1,149 @@
+{
+	"dictionary": [
+		{
+			"name": "number",
+			"include": [
+				"%integer",
+				"%float"
+			]
+		},
+		{
+			"name": "comment",
+			"include": [
+				"%rem"
+			]
+		}
+	],
+	"targets": [
+		{
+			"name": "address",
+			"accept": [
+				"break",
+				"rem",
+				"goto",
+				"gosub",
+				"dim",
+				"def",
+				"if",
+				"print",
+				"variable"
+			]
+		},
+		{
+			"name": "print",
+			"accept": [
+				"string",
+				"tabspace",
+				"separator",
+				"variable",
+				"operator"
+			]
+		},
+		{
+			"name": "dim",
+			"accept": [
+				"variable",
+				"declaration-separator"
+			]
+		},
+		{
+			"name": "def",
+			"accept": [
+				"function"
+			]
+		},
+		{
+			"name": "if",
+			"accept": [
+				"then",
+				"condition",
+				"command",
+				"variable",
+				"comparison",
+				"operator",
+				"number"
+			]
+		},
+		{
+			"name": "then",
+			"accept": [
+				"break",
+				"goto",
+				"if",
+				"command",
+				"variable",
+				"target"
+			]
+		},
+		{
+			"name": "goto",
+			"accept": [
+				"target"
+			]
+		},
+		{
+			"name": "gosub",
+			"accept": [
+				"target"
+			]
+		},
+		{
+			"name": "function",
+			"accept": [
+				"argument",
+				"function-terminator",
+				"assignment"
+			]
+		},
+		{
+			"name": "dimension",
+			"accept": [
+				"variable",
+				"number",
+				"dimension-separator",
+				"dimension-terminator"
+			]
+		},
+		{
+			"name": "variable",
+			"accept": [
+				"assignment",
+				"dimension"
+			]
+		},
+		{
+			"name": "assignment",
+			"accept": [
+				"command",
+				"variable",
+				"string",
+				"number",
+				"operator",
+				"container"
+			]
+		},
+		{
+			"name": "container",
+			"accept": [
+				"command",
+				"variable",
+				"string",
+				"number",
+				"operator",
+				"container",
+				"container-terminator"
+			]
+		},
+		{
+			"name": "command",
+			"accept": [
+				"command",
+				"variable",
+				"number",
+				"string",
+				"operator",
+				"command-terminator"
+			]
+		}
+	]
+}

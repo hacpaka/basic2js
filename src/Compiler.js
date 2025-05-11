@@ -1,5 +1,5 @@
 import fs from 'fs';
-import {Address} from './Address.js';
+import Address from './Consumers/Address.js';
 import {CompilationError} from './Exceptions/CompilationError.js';
 
 function filter(target, handler) {
@@ -48,6 +48,10 @@ export class Compiler {
 
 	get Nodes() {
 		return this.#nodes;
+	}
+
+	get Length() {
+		return this.Nodes.length;
 	}
 
 	async Compile() {

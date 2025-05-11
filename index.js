@@ -12,9 +12,8 @@ await (async (target) => {
 		try {
 			await compiler.Compile();
 		} catch (e) {
-
 			if (e instanceof CompilationError) {
-				throw new Error(`Compilation error on line ${compiler.Index + 1}:\n${e?.message ?? e}\n> ${compiler.Line}\n>> ${compiler.Unconsumed}`);
+				throw new Error(`Compilation error on line ${compiler.Index + 1}:\n${e?.message ?? e}\n> ${compiler.Line}\n? ${compiler.Unconsumed}`);
 			}
 
 			throw e;
@@ -24,7 +23,8 @@ await (async (target) => {
 		print(compiler.Nodes);
 
 	} catch (e) {
-		console.error(e?.message ?? e);
+		console.error(`\n${e}\n`);
+		// console.error(`\n${e?.message ?? e}\n`);
 	}
 })(...process.argv.slice(2));
 

@@ -1,4 +1,4 @@
-import {AConsumer} from './AConsumer.js';
+import {AConsumer} from './Consumers/Abstractions/AConsumer.js';
 
 export default class Separator extends AConsumer {
 	constructor(level = 0) {

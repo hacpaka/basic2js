@@ -1,4 +1,4 @@
-import {AConsumer} from './AConsumer.js';
+import {AConsumer} from './Consumers/Abstractions/AConsumer.js';
 
 export default class ContainerTerminator extends AConsumer {
 
@@ -6,7 +6,7 @@ export default class ContainerTerminator extends AConsumer {
 		super(/^\s*\)\s*/, level);
 	}
 
-	Break() {
+	Finalizing() {
 		return true;
 	}
 }
