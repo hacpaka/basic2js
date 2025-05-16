@@ -140,6 +140,7 @@
 		},
 		{
 			"name": "operator",
+			"greedy": true,
 			"accept": [
 				"command",
 				"variable",

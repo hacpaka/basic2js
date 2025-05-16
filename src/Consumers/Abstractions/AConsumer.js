@@ -49,6 +49,10 @@ export class AConsumer extends AConfigurable {
 		return !!this.Configuration?.containerable;
 	}
 
+	get Greedy() {
+		return !!this.Configuration?.greedy;
+	}
+
 	async Consume(line) {
 		console.log(`>> [${this.Class}]: {${line.length}}'${line}'`);
 
@@ -107,6 +111,10 @@ export class AConsumer extends AConfigurable {
 
 					if (!consumer.Ignore()) {
 						this.#collection.push(consumer);
+					}
+
+					if (this.Greedy) {
+						return line;
 					}
 
 					console.log(`@@ [${this.Class}:${consumer.Class}] {${line.length}} '${line}'`);
