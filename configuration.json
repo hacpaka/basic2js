@@ -38,6 +38,12 @@
 			]
 		},
 		{
+			"name": "def",
+			"include": [
+				"%def"
+			]
+		},
+		{
 			"name": "address",
 			"include": [
 				"%address"
@@ -53,6 +59,18 @@
 			"name": "statement-separator",
 			"include": [
 				"%comma"
+			]
+		},
+		{
+			"name": "container",
+			"include": [
+				"%left-bracket"
+			]
+		},
+		{
+			"name": "container-terminator",
+			"include": [
+				"%right-bracket"
 			]
 		},
 		{
@@ -80,6 +98,12 @@
 			]
 		},
 		{
+			"name": "target",
+			"include": [
+				"%variable"
+			]
+		},
+		{
 			"name": "command",
 			"include": [
 				"%command"
@@ -104,7 +128,19 @@
 			]
 		},
 		{
+			"name": "definition",
+			"include": [
+				"%definition"
+			]
+		},
+		{
 			"name": "dimension-terminator",
+			"include": [
+				"%right-bracket"
+			]
+		},
+		{
+			"name": "definition-terminator",
 			"include": [
 				"%right-bracket"
 			]
@@ -118,6 +154,7 @@
 				"comment",
 				"print",
 				"dim",
+				"def",
 				"assignee"
 			]
 		},
@@ -125,6 +162,12 @@
 			"name": "assignee",
 			"accept": [
 				"assignment",
+				"dimension"
+			]
+		},
+		{
+			"name": "target",
+			"accept": [
 				"dimension"
 			]
 		},
@@ -153,11 +196,22 @@
 			"containerable": true,
 			"accept": [
 				"command-terminator",
+				"container",
 				"operator",
 				"command",
+				"target",
 				"variable",
 				"number",
 				"string"
+			]
+		},
+		{
+			"name": "container",
+			"accept": [
+				"command",
+				"operator",
+				"target",
+				"container-terminator"
 			]
 		},
 		{
@@ -174,10 +228,30 @@
 			]
 		},
 		{
+			"name": "def",
+			"accept": [
+				"definition"
+			]
+		},
+		{
+			"name": "definition",
+			"accept": [
+				"variable",
+				"definition-terminator"
+			]
+		},
+		{
+			"name": "definition-terminator",
+			"accept": [
+				"assignment"
+			]
+		},
+		{
 			"name": "dimension",
 			"containerable": true,
 			"accept": [
 				"integer",
+				"variable",
 				"dimension-separator",
 				"dimension-terminator"
 			]

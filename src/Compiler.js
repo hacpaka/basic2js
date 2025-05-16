@@ -38,7 +38,7 @@ export class Compiler {
 		return this.#line;
 	}
 
-	#unconsumed;
+	#unconsumed = "";
 
 	get Unconsumed() {
 		return this.#unconsumed;
