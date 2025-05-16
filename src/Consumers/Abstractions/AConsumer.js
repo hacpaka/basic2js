@@ -1,5 +1,6 @@
 import {upperCamelCase} from 'case-anything';
 import {AConfigurable} from '../../Abstractions/AConfigurable.js';
+import {CompilationError} from '../../Exceptions/CompilationError.js';
 
 export class AConsumer extends AConfigurable {
 	Finalizing() {
@@ -94,7 +95,7 @@ export class AConsumer extends AConfigurable {
 
 					console.log(`?? [${this.Class}:${consumer.Class}] {${line.length}} '${line}'`);
 					if ((line = await (consumer).Consume(line)).length >= length) {
-						console.log(`!! ${this.Class}:${consumer.Class}] {${line.length}} '${line}'`);
+						console.log(`!! [${this.Class}:${consumer.Class}] {${line.length}} '${line}'`);
 
 						continue;
 					}
@@ -115,7 +116,7 @@ export class AConsumer extends AConfigurable {
 		} while (line.length < length);
 
 		if (this.Containerable) {
-			throw new Error(`Container is not finalized: {${this.Name}}${this.Content}!`);
+			throw new CompilationError(`Container is not finalized: {${this.Name}}${this.Content}!`);
 		}
 
 		console.log(`<# ${this.Class}: {${line.length}}${line}'`);

@@ -1,6 +1,12 @@
 {
 	"dictionary": [
 		{
+			"name": "integer",
+			"include": [
+				"%integer"
+			]
+		},
+		{
 			"name": "number",
 			"include": [
 				"%integer",
@@ -26,6 +32,12 @@
 			]
 		},
 		{
+			"name": "dim",
+			"include": [
+				"%dim"
+			]
+		},
+		{
 			"name": "address",
 			"include": [
 				"%address"
@@ -35,6 +47,12 @@
 			"name": "break",
 			"include": [
 				"%break"
+			]
+		},
+		{
+			"name": "statement-separator",
+			"include": [
+				"%comma"
 			]
 		},
 		{
@@ -72,6 +90,24 @@
 			"include": [
 				"%right-bracket"
 			]
+		},
+		{
+			"name": "dimension",
+			"include": [
+				"%left-bracket"
+			]
+		},
+		{
+			"name": "dimension-separator",
+			"include": [
+				"%comma"
+			]
+		},
+		{
+			"name": "dimension-terminator",
+			"include": [
+				"%right-bracket"
+			]
 		}
 	],
 	"targets": [
@@ -81,13 +117,15 @@
 				"break",
 				"comment",
 				"print",
+				"dim",
 				"assignee"
 			]
 		},
 		{
 			"name": "assignee",
 			"accept": [
-				"assignment"
+				"assignment",
+				"dimension"
 			]
 		},
 		{
@@ -125,6 +163,22 @@
 			"name": "print",
 			"accept": [
 				"string"
+			]
+		},
+		{
+			"name": "dim",
+			"accept": [
+				"assignee",
+				"statement-separator"
+			]
+		},
+		{
+			"name": "dimension",
+			"containerable": true,
+			"accept": [
+				"integer",
+				"dimension-separator",
+				"dimension-terminator"
 			]
 		}
 	]
