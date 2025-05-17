@@ -44,6 +44,18 @@
 			]
 		},
 		{
+			"name": "if",
+			"include": [
+				"%if"
+			]
+		},
+		{
+			"name": "then",
+			"include": [
+				"%then"
+			]
+		},
+		{
 			"name": "address",
 			"include": [
 				"%address"
@@ -144,18 +156,33 @@
 			"include": [
 				"%right-bracket"
 			]
+		},
+		{
+			"name": "comparison",
+			"include": [
+				"%comparison"
+			]
+		}
+	],
+	"aliases": [
+		{
+			"name": "&sentence",
+			"values": [
+				"break",
+				"comment",
+				"print",
+				"dim",
+				"def",
+				"if",
+				"assignee"
+			]
 		}
 	],
 	"targets": [
 		{
 			"name": "address",
 			"accept": [
-				"break",
-				"comment",
-				"print",
-				"dim",
-				"def",
-				"assignee"
+				"&sentence"
 			]
 		},
 		{
@@ -175,10 +202,10 @@
 			"name": "assignment",
 			"accept": [
 				"command",
+				"operator",
 				"variable",
 				"number",
-				"string",
-				"operator"
+				"string"
 			]
 		},
 		{
@@ -254,6 +281,33 @@
 				"variable",
 				"dimension-separator",
 				"dimension-terminator"
+			]
+		},
+		{
+			"name": "if",
+			"containerable": true,
+			"autocomplete": true,
+			"accept": [
+				"then",
+				"target",
+				"command",
+				"variable",
+				"comparison"
+			]
+		},
+		{
+			"name": "then",
+			"containerable": true,
+			"accept": [
+				"&sentence"
+			]
+		},
+		{
+			"name": "comparison",
+			"accept": [
+				"number",
+				"command",
+				"comparison"
 			]
 		}
 	]

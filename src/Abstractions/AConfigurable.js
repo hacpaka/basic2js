@@ -9,6 +9,10 @@ export class AConfigurable extends APrototype {
 		return Object.fromEntries((AConfigurable.#configuration?.dictionary ?? []).map(v => [v.name, v.include]));
 	}
 
+	get Aliases() {
+		return Object.fromEntries((AConfigurable.#configuration?.aliases ?? []).map(v => [v.name, v.values]));
+	}
+
 	get Configuration() {
 		return (AConfigurable.#configuration?.targets ?? []).filter(v => v.name === kebabCase(this.Class)).shift();
 	}
@@ -27,9 +31,5 @@ export class AConfigurable extends APrototype {
 		if (this.constructor === AConfigurable) {
 			throw new Error(`Cannot instantiate an abstract class: ${this.Class}!`);
 		}
-	}
-
-	get Traversable() {
-		return !!this.Configuration?.accept?.length;
 	}
 }

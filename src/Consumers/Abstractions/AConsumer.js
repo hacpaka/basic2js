@@ -15,6 +15,18 @@ export class AConsumer extends AConfigurable {
 		return false;
 	}
 
+	get Containerable() {
+		return !!this.Configuration?.containerable;
+	}
+
+	get Autocomplete() {
+		return !!this.Configuration?.autocomplete;
+	}
+
+	get Greedy() {
+		return !!this.Configuration?.greedy;
+	}
+
 	#level = 0;
 
 	get Level() {
@@ -43,14 +55,6 @@ export class AConsumer extends AConfigurable {
 
 	get Content() {
 		return this.#content;
-	}
-
-	get Containerable() {
-		return !!this.Configuration?.containerable;
-	}
-
-	get Greedy() {
-		return !!this.Configuration?.greedy;
 	}
 
 	async Consume(line) {
@@ -104,16 +108,17 @@ export class AConsumer extends AConfigurable {
 						continue;
 					}
 
-					if (consumer.Finalizing()) {
-						console.log(`^^ [${this.Class}:${consumer.Class}]`);
-						return line;
-					}
-
 					if (!consumer.Ignore()) {
 						this.#collection.push(consumer);
 					}
 
+					if (consumer.Finalizing()) {
+						console.log(`<= [${this.Class}:${consumer.Class}]`);
+						return line;
+					}
+
 					if (this.Greedy) {
+						console.log(`<* [${this.Class}:${consumer.Class}]`);
 						return line;
 					}
 
@@ -124,7 +129,11 @@ export class AConsumer extends AConfigurable {
 		} while (line.length < length);
 
 		if (this.Containerable) {
-			throw new CompilationError(`Container is not finalized: {${this.Name}}${this.Content}!`);
+
+			if (!this.Autocomplete || line.length > 0) {
+				console.log(this.Autocomplete, line.length, line);
+				throw new CompilationError(`Container is not finalized: {${this.Name}}${this.Content}!`);
+			}
 		}
 
 		console.log(`<# ${this.Class}: {${line.length}}${line}'`);
@@ -137,14 +146,36 @@ export class AConsumer extends AConfigurable {
 		}
 	}
 
+	*#Acceptances() {
+		for (const value of this.Configuration?.accept ?? []) {
+
+			if (!/^&/.test(value)) {
+				yield value;
+			} else {
+
+				if (!this.Aliases[value] || !Array.isArray(this.Aliases[value])) {
+					throw new CompilationError(`Unrecognized group: ${value}!`);
+				}
+
+				for (const alias of this.Aliases[value]) {
+					yield alias;
+				}
+			}
+		}
+	}
+
 	async *#Traverse() {
-		yield Array.fromAsync(this.Configuration?.accept.map(async v => {
+		yield Array.fromAsync(Array.from(this.#Acceptances()).map(async v => {
 			try {
 				return new ((await import(`../${upperCamelCase(v)}.js`)).default)(this.Level + 1);
 			} catch (e) {
 				throw new Error(`Undefined target: ${v}!\n${e.message}`);
 			}
 		}));
+	}
+
+	get Traversable() {
+		return !!this.Configuration?.accept?.length;
 	}
 }
 
