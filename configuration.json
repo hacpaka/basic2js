@@ -44,6 +44,12 @@
 			]
 		},
 		{
+			"name": "goto",
+			"include": [
+				"%goto"
+			]
+		},
+		{
 			"name": "if",
 			"include": [
 				"%if"
@@ -173,6 +179,7 @@
 				"print",
 				"dim",
 				"def",
+				"goto",
 				"if",
 				"assignee"
 			]
@@ -258,6 +265,12 @@
 			"name": "def",
 			"accept": [
 				"definition"
+			]
+		},
+		{
+			"name": "goto",
+			"accept": [
+				"integer"
 			]
 		},
 		{
